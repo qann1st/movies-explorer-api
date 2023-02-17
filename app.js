@@ -34,6 +34,7 @@ const start = async (req, res, next) => {
     const app = express();
     app.use(requestLogger);
     app.use(express.json());
+    app.use(cors(corsOptions));
     app.use(cookieParser());
 
     app.get('/crash-test', () => {
