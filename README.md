@@ -9,7 +9,7 @@
 
 # Ссылки
 
-- IP 84.201.143.15/
+- IP 84.201.143.15
 - Backend http://api.movies.qann1st.site/
 
 ## Запуск проекта
