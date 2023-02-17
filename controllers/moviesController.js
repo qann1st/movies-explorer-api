@@ -1,4 +1,5 @@
 const BadRequestError = require('../errors/BadRequestError');
+const ConflictError = require('../errors/ConflictError');
 const movieSchema = require('../models/movieSchema');
 
 module.exports.getMovies = async (req, res, next) => {
@@ -24,6 +25,9 @@ module.exports.deleteMovie = async (req, res, next) => {
     const deletedMovie = await movieSchema.findByIdAndDelete(req.params.id);
     if (deletedMovie === null) {
       throw new BadRequestError('Такой карточки не существует');
+    }
+    if (deletedMovie.owner._id !== req.user._id) {
+      throw new ConflictError('Нельзя удалить чужой фильм');
     }
     res.send(deletedMovie);
   } catch (err) {
