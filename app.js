@@ -3,8 +3,11 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const router = require('./routes');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { error } = require('./middlewares/errors');
+const { error } = require('./middlewares/errorMiddleware');
+const {
+  requestLogger,
+  errorLogger,
+} = require('./middlewares/loggerMiddleware');
 require('dotenv').config();
 
 const allowDomains = ['https://mesto.qann1st.site', 'http://localhost:4000'];
@@ -43,6 +46,7 @@ const start = async (req, res, next) => {
       console.log('Server started');
     });
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
