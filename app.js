@@ -10,7 +10,10 @@ const {
 } = require('./middlewares/loggerMiddleware');
 require('dotenv').config();
 
-const allowDomains = ['https://mesto.qann1st.site', 'http://localhost:4000'];
+const allowDomains = [
+  'https://api.movies.qann1st.site',
+  'http://localhost:4000',
+];
 const corsOptions = {
   origin(origin, callback) {
     if (allowDomains.indexOf(origin) !== -1) {
@@ -30,6 +33,7 @@ const start = async (req, res, next) => {
     const app = express();
     app.use(requestLogger);
     app.use(express.json());
+    app.use(cors(corsOptions));
 
     app.get('/crash-test', () => {
       setTimeout(() => {
