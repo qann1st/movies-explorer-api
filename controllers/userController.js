@@ -12,3 +12,24 @@ module.exports.getNowUser = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.editNowUser = async (req, res, next) => {
+  try {
+    const editedUser = await userSchema.findByIdAndUpdate(
+      req.user._id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
+    res.send(editedUser);
+  } catch (err) {
+    if (err.name === 'CastError') {
+      next(new BadRequestError('Не удалось изменить пользователя'));
+    } else {
+      next(err);
+    }
+  }
+};

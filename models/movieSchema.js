@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const movieSchema = new mongoose.Schema({
   country: {
     type: String,
     required: true,
@@ -46,9 +46,7 @@ const userSchema = new mongoose.Schema({
     },
   },
   owner: {
-    required: true,
-  },
-  movieId: {
+    type: Object,
     required: true,
   },
   nameRU: {
@@ -61,4 +59,4 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('cards', userSchema);
+module.exports = mongoose.model('movies', movieSchema);
