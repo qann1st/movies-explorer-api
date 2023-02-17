@@ -13,9 +13,13 @@ module.exports.getMovies = async (req, res, next) => {
 
 module.exports.createMovie = async (req, res, next) => {
   try {
-    const movie = await movieSchema.create(req.body);
+    const movie = await movieSchema.create({
+      ...req.body,
+      owner: req.user._id,
+    });
     res.send(movie);
   } catch (err) {
+    console.log(err);
     next(new BadRequestError('Некорректно заполнены поля'));
   }
 };

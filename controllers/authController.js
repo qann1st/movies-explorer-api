@@ -12,15 +12,20 @@ module.exports.signIn = async (req, res, next) => {
       throw new Error('Неправильная почта или пароль');
     }
 
-    const token = await jwt.sign({ _id: findUser._id }, process.env.JWT_SECRET);
+    const token = await jwt.sign(
+      { _id: findUser._id },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' },
+    );
     const matched = await bcrypt.compare(password, findUser.password);
     if (!matched) {
       throw new Error('Неправильная почта или пароль');
     }
 
-    res.send({
-      token,
+    res.cookie('token', token, {
+      maxAge: 3600 * 24 * 7,
     });
+    res.send({ token });
   } catch (err) {
     if (err.name === 'CastError') {
       res.status(400).send({ message: 'Некорректно введены данные' });

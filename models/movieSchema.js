@@ -46,7 +46,7 @@ const movieSchema = new mongoose.Schema({
     },
   },
   owner: {
-    type: Object,
+    type: String,
     required: true,
   },
   nameRU: {

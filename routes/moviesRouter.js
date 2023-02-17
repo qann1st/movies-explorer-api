@@ -29,7 +29,7 @@ router.post(
         .required()
         .uri()
         .regex(/^https?:\/\//i),
-      owner: Joi.object().required(),
+      movieId: Joi.string().required(),
       nameRU: Joi.string().required(),
       nameEN: Joi.string().required(),
     }),
@@ -39,7 +39,7 @@ router.delete(
   '/:id',
   celebrate({
     params: {
-      id: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+      id: Joi.string().length(24).hex(),
     },
   }),
   deleteMovie,
