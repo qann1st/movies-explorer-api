@@ -28,7 +28,7 @@ router.post(
   }),
   signUp,
 );
-router.use('*', (req, res) =>
+router.use('*', authMiddleware, (req, res) =>
   res.status(404).send({ message: 'Роут не найден' }),
 );
 
