@@ -9,6 +9,7 @@ const {
   errorLogger,
 } = require('./middlewares/loggerMiddleware');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet')
 require('dotenv').config();
 
 const allowDomains = [
@@ -34,6 +35,7 @@ const start = async (req, res, next) => {
     const app = express();
     app.use(requestLogger);
     app.use(express.json());
+    app.use(helmet())
     app.use(cors(corsOptions));
     app.use(cookieParser());
 
