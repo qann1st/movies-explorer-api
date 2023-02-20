@@ -2,6 +2,7 @@ const userSchema = require('../models/userSchema');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const ConflictError = require('../errors/ConflictError');
+const BadRequestError = require('../errors/BadRequestError')
 
 module.exports.signIn = async (req, res, next) => {
   try {
@@ -9,7 +10,7 @@ module.exports.signIn = async (req, res, next) => {
 
     const findUser = await userSchema.findOne({ email }).select('+password');
     if (!findUser) {
-      throw new Error('Неправильная почта или пароль');
+      throw new BadRequestError('Неправильные почта или пароль');
     }
 
     const token = await jwt.sign(
@@ -19,7 +20,7 @@ module.exports.signIn = async (req, res, next) => {
     );
     const matched = await bcrypt.compare(password, findUser.password);
     if (!matched) {
-      throw new Error('Неправильная почта или пароль');
+      throw new BadRequestError('Неправильные почта или пароль');
     }
 
     res.cookie('token', token, {

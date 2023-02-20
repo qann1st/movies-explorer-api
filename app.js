@@ -14,7 +14,7 @@ require('dotenv').config();
 
 const allowDomains = [
   'https://api.movies.qann1st.site',
-  'http://localhost:4000',
+  'http://localhost:3000',
 ];
 const corsOptions = {
   origin(origin, callback) {
@@ -36,7 +36,7 @@ const start = async (req, res, next) => {
     app.use(requestLogger);
     app.use(express.json());
     app.use(helmet())
-    app.use(cors(corsOptions));
+    app.use(cors());
     app.use(cookieParser());
 
     app.get('/crash-test', () => {
