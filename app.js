@@ -9,12 +9,14 @@ const {
   errorLogger,
 } = require('./middlewares/loggerMiddleware');
 const cookieParser = require('cookie-parser');
-const helmet = require('helmet')
+const helmet = require('helmet');
 require('dotenv').config();
 
 const allowDomains = [
   'https://api.movies.qann1st.site',
   'http://localhost:3000',
+  'http://movies.qann1st.site/',
+  'https://movies.qann1st.site/'
 ];
 const corsOptions = {
   origin(origin, callback) {
@@ -25,6 +27,7 @@ const corsOptions = {
     }
   },
   methods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+  credentials: true,
 };
 
 const start = async (req, res, next) => {
@@ -35,8 +38,8 @@ const start = async (req, res, next) => {
     const app = express();
     app.use(requestLogger);
     app.use(express.json());
-    app.use(helmet())
-    app.use(cors());
+    app.use(helmet());
+    app.use(cors(corsOptions));
     app.use(cookieParser());
 
     app.get('/crash-test', () => {

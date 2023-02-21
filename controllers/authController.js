@@ -2,7 +2,7 @@ const userSchema = require('../models/userSchema');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const ConflictError = require('../errors/ConflictError');
-const BadRequestError = require('../errors/BadRequestError')
+const BadRequestError = require('../errors/BadRequestError');
 
 module.exports.signIn = async (req, res, next) => {
   try {
@@ -24,7 +24,10 @@ module.exports.signIn = async (req, res, next) => {
     }
 
     res.cookie('token', token, {
-      maxAge: 3600 * 24 * 7,
+      maxAge: 604800000,
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
     });
     res.send({ token });
   } catch (err) {
@@ -33,6 +36,24 @@ module.exports.signIn = async (req, res, next) => {
     } else {
       next(err);
     }
+  }
+};
+
+module.exports.logout = async (req, res, next) => {
+  try {
+    if (req.cookies.token === undefined) {
+      throw new BadRequestError('Вы не авторизованы');
+    }
+
+    res.cookie('token', '', {
+      maxAge: -1,
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    });
+    res.send({ message: 'Вы успешно деавторизовались' });
+  } catch (err) {
+    next(err);
   }
 };
 

@@ -1,12 +1,13 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
-const { signIn, signUp } = require('../controllers/authController');
+const { signIn, signUp, logout } = require('../controllers/authController');
 const authMiddleware = require('../middlewares/authMiddleware');
 const { moviesRouter } = require('./moviesRouter');
 const { userRouter } = require('./userRouter');
 
 router.use('/users', authMiddleware, userRouter);
 router.use('/movies', authMiddleware, moviesRouter);
+router.post('/logout', logout);
 router.post(
   '/signin',
   celebrate({
