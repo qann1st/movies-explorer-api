@@ -15,8 +15,8 @@ require('dotenv').config();
 const allowDomains = [
   'https://api.movies.qann1st.site',
   'http://localhost:3000',
-  'http://movies.qann1st.site/',
-  'https://movies.qann1st.site/'
+  'http://movies.qann1st.site',
+  'https://movies.qann1st.site'
 ];
 const corsOptions = {
   origin(origin, callback) {
